@@ -1,0 +1,6 @@
+- description: 数据分析 - 趋势问题
+  vars:
+    input: "我们产品过去 4 个月的月活用户分别是：1000、1200、1500、1400。"
+  assert:
+    - type: llm-rubric
+      value: "指出整体增长趋势，并提示最后一个月下滑值得关注"

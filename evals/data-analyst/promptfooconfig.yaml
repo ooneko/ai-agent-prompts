@@ -1,5 +1,5 @@
 # yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
-description: AI Agent Prompts Evaluation
+description: Data Analyst Prompt Evaluation
 
 # Providers to test against
 providers:
@@ -11,11 +11,11 @@ providers:
 
 # Prompt files to evaluate
 prompts:
-  - id: file://../../prompts/assistant.md
-    label: assistant
+  - id: file://../../prompts/data-analyst.md
+    label: data-analyst
 
 # Test cases
-tests: ../../tests/general/cases.yaml
+tests: ../../tests/data-analyst/cases.yaml
 
 # llm-rubric assertions graded by the same provider
 defaultTest:
@@ -31,4 +31,4 @@ evaluateOptions:
   maxConcurrency: 2
 
 # Output settings
-outputPath: ../../results/assistant.json
+outputPath: ../../results/data-analyst.json

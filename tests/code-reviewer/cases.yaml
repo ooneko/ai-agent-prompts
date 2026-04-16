@@ -1,0 +1,25 @@
+- description: 代码审查 - 安全漏洞
+  vars:
+    input: |
+      def login(username, password):
+          query = f"SELECT * FROM users WHERE username='{username}' AND password='{password}'"
+          return db.execute(query)
+  assert:
+    - type: contains-any
+      value:
+        - "SQL 注入"
+        - "sql注入"
+        - "SQL injection"
+        - "参数化"
+        - "parameterized"
+    - type: llm-rubric
+      value: "识别出 SQL 注入漏洞，并建议使用参数化查询"
+
+- description: 代码审查 - 干净代码
+  vars:
+    input: |
+      def add(a: int, b: int) -> int:
+          return a + b
+  assert:
+    - type: llm-rubric
+      value: "给出正面评价或提出合理的小建议，不捏造不存在的问题"

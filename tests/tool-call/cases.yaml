@@ -1,0 +1,57 @@
+# Tool-call test cases
+#
+# Each test checks a different aspect of tool-call behaviour:
+#   1. trajectory:tool-used   — did the agent call a specific tool at all?
+#   2. trajectory:tool-sequence — did the agent call tools in the right order?
+#   3. javascript              — custom logic on metadata.tools_called
+
+# ── Case 1: 基础检查 — 询问时事，Agent 必须调用 web_search ────────────────
+- description: '询问最新新闻时应调用 web_search'
+  vars:
+    task: '今天有什么重要的科技新闻？请搜索后告诉我。'
+  assert:
+    - type: trajectory:tool-used
+      value: web_search
+
+# ── Case 2: 反向检查 — 普通问题不应该调用 write_file ─────────────────────
+- description: '回答简单问题时不应调用 write_file'
+  vars:
+    task: '1 + 1 等于几？'
+  assert:
+    - type: javascript
+      value: '!output.metadata?.tools_called?.includes("write_file")'
+
+# ── Case 3: 顺序检查 — 先读文件再写文件 ──────────────────────────────────
+- description: '修改文件时应先读取再写入（in_order 模式）'
+  vars:
+    task: '请读取 config.json 文件，然后把版本号改成 2.0 并写回文件。'
+  assert:
+    - type: trajectory:tool-sequence
+      value:
+        steps:
+          - read_file
+          - write_file
+        mode: in_order   # 允许中间有其他步骤
+
+# ── Case 4: 精确顺序 — 只允许恰好按这个顺序调用这两个工具 ────────────────
+- description: '搜索后立即写结果，不允许多余步骤（exact 模式）'
+  vars:
+    task: '搜索"promptfoo 工具调用断言"，然后把搜索结果写入 result.txt 文件，不要做其他任何操作。'
+  assert:
+    - type: trajectory:tool-sequence
+      value:
+        steps:
+          - web_search
+          - write_file
+        mode: exact
+
+# ── Case 5: javascript 自定义逻辑 — 检查调用次数 ─────────────────────────
+- description: '搜索请求应至少调用一次 web_search'
+  vars:
+    task: '帮我搜索三件关于 AI Agent 的最新事情。'
+  assert:
+    - type: javascript
+      value: |
+        const called = output.metadata?.tools_called ?? [];
+        const count = called.filter(t => t === "web_search").length;
+        return { pass: count >= 1, score: count >= 1 ? 1 : 0, reason: `web_search called ${count} time(s)` };

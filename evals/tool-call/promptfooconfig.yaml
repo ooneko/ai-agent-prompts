@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
+description: 'Tool call behavior — verify which tools the agent uses'
+
+providers:
+  - id: file://provider.py
+    label: agent-with-tools
+
+# No static prompt file: each test passes the full user message as the prompt
+prompts:
+  - '{{task}}'
+
+tests: ../../tests/tool-call/cases.yaml
+
+defaultTest:
+  options:
+    # Use the same model for llm-rubric grading
+    provider:
+      id: 'anthropic:messages:{{env.MODEL}}'
+      config:
+        apiKey: '{{env.ANTHROPIC_API_KEY}}'
+        apiBaseUrl: '{{env.ANTHROPIC_BASE_URL}}'
+
+evaluateOptions:
+  maxConcurrency: 1   # sequential: easier to debug tool loops
+
+outputPath: ../../results/tool-call.json
