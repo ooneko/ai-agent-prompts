@@ -2,25 +2,25 @@
 description: Excel 表格问数评测
 
 providers:
-  - id: anthropic:messages:GLM-5.1
-    label: glm-5.1
+  - id: 'anthropic:messages:{{env.MODEL}}'
+    label: '{{env.MODEL}}'
     config:
       apiKey: '{{env.ANTHROPIC_API_KEY}}'
-      apiBaseUrl: https://open.bigmodel.cn/api/anthropic
+      apiBaseUrl: '{{env.ANTHROPIC_BASE_URL}}'
 
 prompts:
   - id: file://../../prompts/excel-qa.md
     label: excel-qa
 
-tests: tests/cases.yaml
+tests: ../../tests/excel-qa/cases.yaml
 
 defaultTest:
   options:
     provider:
-      id: anthropic:messages:GLM-5.1
+      id: 'anthropic:messages:{{env.MODEL}}'
       config:
         apiKey: '{{env.ANTHROPIC_API_KEY}}'
-        apiBaseUrl: https://open.bigmodel.cn/api/anthropic
+        apiBaseUrl: '{{env.ANTHROPIC_BASE_URL}}'
 
 evaluateOptions:
   maxConcurrency: 2

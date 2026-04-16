@@ -3,36 +3,36 @@ description: AI Agent Prompts Evaluation
 
 # Providers to test against
 providers:
-  - id: anthropic:messages:GLM-5.1
-    label: glm-4-flash
+  - id: 'anthropic:messages:{{env.MODEL}}'
+    label: '{{env.MODEL}}'
     config:
       apiKey: '{{env.ANTHROPIC_API_KEY}}'
-      apiBaseUrl: https://open.bigmodel.cn/api/anthropic
+      apiBaseUrl: '{{env.ANTHROPIC_BASE_URL}}'
 
 # Prompt files to evaluate
 prompts:
-  - id: file://prompts/assistant.md
+  - id: file://../../prompts/assistant.md
     label: assistant
-  - id: file://prompts/code-reviewer.md
+  - id: file://../../prompts/code-reviewer.md
     label: code-reviewer
-  - id: file://prompts/data-analyst.md
+  - id: file://../../prompts/data-analyst.md
     label: data-analyst
 
 # Test cases
-tests: tests/cases.yaml
+tests: ../../tests/general/cases.yaml
 
 # llm-rubric assertions graded by the same provider
 defaultTest:
   options:
     provider:
-      id: anthropic:messages:GLM-5.1
+      id: 'anthropic:messages:{{env.MODEL}}'
       config:
         apiKey: '{{env.ANTHROPIC_API_KEY}}'
-        apiBaseUrl: https://open.bigmodel.cn/api/anthropic
+        apiBaseUrl: '{{env.ANTHROPIC_BASE_URL}}'
 
 # Avoid rate limit (BigModel free tier)
 evaluateOptions:
   maxConcurrency: 2
 
 # Output settings
-outputPath: results/latest.json
+outputPath: ../../results/general.json
