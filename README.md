@@ -1,49 +1,51 @@
-# AI Agent Prompts
+# AI Agent 提示词管理
 
-A collection of AI agent prompt templates with [promptfoo](https://promptfoo.dev) evaluations.
+基于 [promptfoo](https://promptfoo.dev) 的 AI Agent 提示词模板集合与评测示例。
 
-## Prompts
+## 提示词
 
-| Prompt | Description |
-|--------|-------------|
-| `prompts/assistant.md` | General-purpose helpful assistant |
-| `prompts/code-reviewer.md` | Code review with security and quality focus |
-| `prompts/data-analyst.md` | Data interpretation and trend analysis |
+| 文件 | 说明 |
+|------|------|
+| `prompts/assistant.md` | 通用助手 |
+| `prompts/code-reviewer.md` | 代码审查（含安全与质量检测） |
+| `prompts/data-analyst.md` | 数据解读与趋势分析 |
 
-## Setup
+## 快速开始
+
+安装 promptfoo：
 
 ```bash
 npm install -g promptfoo
 ```
 
-Set your API keys:
+设置 API Key：
 
 ```bash
-export OPENAI_API_KEY=your_key
-export ANTHROPIC_API_KEY=your_key
+export ANTHROPIC_API_KEY=你的密钥
+export ANTHROPIC_BASE_URL=https://open.bigmodel.cn/api/anthropic
 ```
 
-## Run Evals
+## 运行评测
 
 ```bash
-# Run all evaluations
+# 执行所有评测
 promptfoo eval
 
-# View results in browser
+# 在浏览器中查看结果
 promptfoo view
 ```
 
 ## CI
 
-GitHub Actions automatically runs evals on any changes to `prompts/`, `tests/`, or `promptfooconfig.yaml`.
+在 `prompts/`、`tests/` 或 `promptfooconfig.yaml` 有改动时，GitHub Actions 会自动触发评测。
 
-Required secrets: `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`
+所需 Secret：`ANTHROPIC_API_KEY`
 
-## Structure
+## 目录结构
 
 ```
-├── prompts/          # Prompt template files
-├── tests/            # Test cases (cases.yaml)
-├── results/          # Eval outputs (gitignored)
+├── prompts/               # 提示词模板
+├── tests/                 # 测试用例（cases.yaml）
+├── results/               # 评测输出（已 gitignore）
 └── promptfooconfig.yaml
 ```
