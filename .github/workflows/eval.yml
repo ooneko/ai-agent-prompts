@@ -1,0 +1,40 @@
+name: Prompt Eval
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'prompts/**'
+      - 'tests/**'
+      - 'promptfooconfig.yaml'
+  pull_request:
+    paths:
+      - 'prompts/**'
+      - 'tests/**'
+      - 'promptfooconfig.yaml'
+
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install promptfoo
+        run: npm install -g promptfoo
+
+      - name: Run evals
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: promptfoo eval --no-cache --output results/ci.json
+
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eval-results
+          path: results/

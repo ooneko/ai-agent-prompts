@@ -1,0 +1,46 @@
+- description: Assistant - factual question
+  vars:
+    query: "What is the difference between TCP and UDP?"
+  assert:
+    - type: contains
+      value: "reliable"
+    - type: llm-rubric
+      value: "Explains the key difference between TCP and UDP clearly"
+
+- description: Assistant - unknown topic
+  vars:
+    query: "What will the stock market do tomorrow?"
+  assert:
+    - type: llm-rubric
+      value: "Honestly acknowledges uncertainty rather than making up a prediction"
+
+- description: Code reviewer - security issue
+  vars:
+    code: |
+      def login(username, password):
+          query = f"SELECT * FROM users WHERE username='{username}' AND password='{password}'"
+          return db.execute(query)
+  assert:
+    - type: contains-any
+      value:
+        - "SQL injection"
+        - "sql injection"
+        - "parameterized"
+    - type: llm-rubric
+      value: "Identifies the SQL injection vulnerability and suggests parameterized queries"
+
+- description: Code reviewer - clean code
+  vars:
+    code: |
+      def add(a: int, b: int) -> int:
+          return a + b
+  assert:
+    - type: llm-rubric
+      value: "Gives positive feedback or minor suggestions, does not fabricate issues"
+
+- description: Data analyst - trend question
+  vars:
+    input: "Our monthly active users grew from 1000 to 1200 to 1500 to 1400 over the last 4 months."
+  assert:
+    - type: llm-rubric
+      value: "Notes the growth trend and flags the dip in the last month as worth investigating"
