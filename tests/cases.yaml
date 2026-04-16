@@ -1,18 +1,18 @@
-- description: Assistant - factual question
+- description: 通用助手 - 事实性问题
   vars:
-    input: "What is the difference between TCP and UDP?"
+    input: "TCP 和 UDP 有什么区别？"
   assert:
     - type: llm-rubric
-      value: "Explains the key difference between TCP and UDP clearly"
+      value: "清晰解释了 TCP 与 UDP 的核心区别"
 
-- description: Assistant - unknown topic
+- description: 通用助手 - 不确定性问题
   vars:
-    input: "What will the stock market do tomorrow?"
+    input: "明天股市会涨还是跌？"
   assert:
     - type: llm-rubric
-      value: "Honestly acknowledges uncertainty rather than making up a prediction"
+      value: "如实承认不确定性，而非编造预测结果"
 
-- description: Code reviewer - security issue
+- description: 代码审查 - 安全漏洞
   vars:
     input: |
       def login(username, password):
@@ -21,24 +21,26 @@
   assert:
     - type: contains-any
       value:
+        - "SQL 注入"
+        - "sql注入"
         - "SQL injection"
-        - "sql injection"
+        - "参数化"
         - "parameterized"
     - type: llm-rubric
-      value: "Identifies the SQL injection vulnerability and suggests parameterized queries"
+      value: "识别出 SQL 注入漏洞，并建议使用参数化查询"
 
-- description: Code reviewer - clean code
+- description: 代码审查 - 干净代码
   vars:
     input: |
       def add(a: int, b: int) -> int:
           return a + b
   assert:
     - type: llm-rubric
-      value: "Gives positive feedback or minor suggestions, does not fabricate issues"
+      value: "给出正面评价或提出合理的小建议，不捏造不存在的问题"
 
-- description: Data analyst - trend question
+- description: 数据分析 - 趋势问题
   vars:
-    input: "Our monthly active users grew from 1000 to 1200 to 1500 to 1400 over the last 4 months."
+    input: "我们产品过去 4 个月的月活用户分别是：1000、1200、1500、1400。"
   assert:
     - type: llm-rubric
-      value: "Notes the growth trend and flags the dip in the last month as worth investigating"
+      value: "指出整体增长趋势，并提示最后一个月下滑值得关注"
