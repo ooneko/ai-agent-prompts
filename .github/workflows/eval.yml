@@ -28,8 +28,8 @@ jobs:
 
       - name: Run evals
         env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ANTHROPIC_BASE_URL: https://open.bigmodel.cn/api/anthropic
         run: promptfoo eval --no-cache --output results/ci.json
 
       - name: Upload results

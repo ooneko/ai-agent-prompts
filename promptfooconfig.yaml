@@ -2,10 +2,11 @@ description: AI Agent Prompts Evaluation
 
 # Providers to test against
 providers:
-  - id: openai:gpt-4o-mini
-    label: gpt-4o-mini
-  - id: anthropic:claude-haiku-4-5-20251001
-    label: claude-haiku
+  - id: anthropic:messages:GLM-5.1
+    label: glm-5.1
+    config:
+      apiKey: env:ANTHROPIC_API_KEY
+      apiBaseUrl: https://open.bigmodel.cn/api/anthropic
 
 # Prompt files to evaluate
 prompts:
@@ -19,10 +20,14 @@ prompts:
 # Test cases
 tests: tests/cases.yaml
 
-# Default assertion threshold (60% pass rate)
+# llm-rubric assertions use the same provider by default
 defaultTest:
   options:
-    provider: openai:gpt-4o-mini
+    provider:
+      id: anthropic:messages:GLM-5.1
+      config:
+        apiKey: env:ANTHROPIC_API_KEY
+        apiBaseUrl: https://open.bigmodel.cn/api/anthropic
 
 # Output settings
 outputPath: results/latest.json
