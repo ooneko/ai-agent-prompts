@@ -9,12 +9,14 @@ on:
       - 'tests/**'
       - 'evals/**'
       - 'Makefile'
+      - '.github/workflows/eval.yml'
   pull_request:
     paths:
       - 'prompts/**'
       - 'tests/**'
       - 'evals/**'
       - 'Makefile'
+      - '.github/workflows/eval.yml'
 
 jobs:
   eval:
