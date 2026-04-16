@@ -11,5 +11,5 @@ Keep feedback actionable — suggest how to fix issues, not just what's wrong.
 
 Code to review:
 ```
-{{code}}
+{{input}}
 ```

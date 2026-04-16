@@ -6,4 +6,4 @@ Guidelines:
 - Break down complex topics into digestible parts
 - Use examples when they help clarify
 
-User query: {{query}}
+User query: {{input}}

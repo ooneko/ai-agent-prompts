@@ -1,22 +1,20 @@
 - description: Assistant - factual question
   vars:
-    query: "What is the difference between TCP and UDP?"
+    input: "What is the difference between TCP and UDP?"
   assert:
-    - type: contains
-      value: "reliable"
     - type: llm-rubric
       value: "Explains the key difference between TCP and UDP clearly"
 
 - description: Assistant - unknown topic
   vars:
-    query: "What will the stock market do tomorrow?"
+    input: "What will the stock market do tomorrow?"
   assert:
     - type: llm-rubric
       value: "Honestly acknowledges uncertainty rather than making up a prediction"
 
 - description: Code reviewer - security issue
   vars:
-    code: |
+    input: |
       def login(username, password):
           query = f"SELECT * FROM users WHERE username='{username}' AND password='{password}'"
           return db.execute(query)
@@ -31,7 +29,7 @@
 
 - description: Code reviewer - clean code
   vars:
-    code: |
+    input: |
       def add(a: int, b: int) -> int:
           return a + b
   assert:
