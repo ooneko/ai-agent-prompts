@@ -1,0 +1,28 @@
+# yaml-language-server: $schema=https://promptfoo.dev/config-schema.json
+description: Excel 表格问数评测
+
+providers:
+  - id: anthropic:messages:GLM-5.1
+    label: glm-5.1
+    config:
+      apiKey: '{{env.ANTHROPIC_API_KEY}}'
+      apiBaseUrl: https://open.bigmodel.cn/api/anthropic
+
+prompts:
+  - id: file://../../prompts/excel-qa.md
+    label: excel-qa
+
+tests: tests/cases.yaml
+
+defaultTest:
+  options:
+    provider:
+      id: anthropic:messages:GLM-5.1
+      config:
+        apiKey: '{{env.ANTHROPIC_API_KEY}}'
+        apiBaseUrl: https://open.bigmodel.cn/api/anthropic
+
+evaluateOptions:
+  maxConcurrency: 2
+
+outputPath: ../../results/excel-qa.json
