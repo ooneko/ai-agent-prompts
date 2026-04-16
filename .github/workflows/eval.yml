@@ -1,6 +1,7 @@
 name: Prompt Eval
 
 on:
+  workflow_dispatch:   # 手动触发
   push:
     branches: [main]
     paths:
