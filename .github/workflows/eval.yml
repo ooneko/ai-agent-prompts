@@ -8,13 +8,13 @@ on:
       - 'prompts/**'
       - 'tests/**'
       - 'evals/**'
-      - 'promptfooconfig.yaml'
+      - 'Makefile'
   pull_request:
     paths:
       - 'prompts/**'
       - 'tests/**'
       - 'evals/**'
-      - 'promptfooconfig.yaml'
+      - 'Makefile'
 
 jobs:
   eval:
@@ -32,14 +32,16 @@ jobs:
       - name: Run agent evals
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          ANTHROPIC_BASE_URL: https://open.bigmodel.cn/api/anthropic
-        run: promptfoo eval --no-cache --output results/ci.json
+          ANTHROPIC_BASE_URL: ${{ secrets.ANTHROPIC_BASE_URL }}
+          MODEL: ${{ secrets.MODEL }}
+        run: promptfoo eval -c evals/general/promptfooconfig.yaml --no-cache --output results/general.json
 
       - name: Run excel-qa evals
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          ANTHROPIC_BASE_URL: https://open.bigmodel.cn/api/anthropic
-        run: promptfoo eval -c evals/excel-qa/promptfooconfig.yaml --no-cache
+          ANTHROPIC_BASE_URL: ${{ secrets.ANTHROPIC_BASE_URL }}
+          MODEL: ${{ secrets.MODEL }}
+        run: promptfoo eval -c evals/excel-qa/promptfooconfig.yaml --no-cache --output results/excel-qa.json
 
       - name: Upload results
         if: always()
